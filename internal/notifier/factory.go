@@ -54,6 +54,7 @@ var (
 		apiv1.BitbucketServerProvider: bitbucketServerNotifierFunc,
 		apiv1.BitbucketProvider:       bitbucketNotifierFunc,
 		apiv1.AzureDevOpsProvider:     azureDevOpsNotifierFunc,
+		apiv1.CDEventsProvider:        cdEventsNotifierFunc,
 	}
 )
 
@@ -242,4 +243,8 @@ func bitbucketNotifierFunc(opts notifierOptions) (Interface, error) {
 
 func azureDevOpsNotifierFunc(opts notifierOptions) (Interface, error) {
 	return NewAzureDevOps(opts.ProviderUID, opts.URL, opts.Token, opts.CertPool)
+}
+
+func cdEventsNotifierFunc(opts notifierOptions) (Interface, error) {
+	return NewCDEvents(opts.URL, opts.ProxyURL, opts.CertPool)
 }

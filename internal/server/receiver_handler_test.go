@@ -124,7 +124,7 @@ func Test_handlePayload(t *testing.T) {
 				},
 				Spec: apiv1.ReceiverSpec{
 					Type:   apiv1.CDEventsReceiver,
-					Events: []string{"cd.change.merged.v1"},
+					Events: []string{"dev.cdevents.taskrun.finished.0.1.1"},
 					SecretRef: meta.LocalObjectReference{
 						Name: "token",
 					},
@@ -135,7 +135,7 @@ func Test_handlePayload(t *testing.T) {
 				},
 			},
 			headers: map[string]string{
-				"Ce-Type": "cd.change.merged.v1",
+				"Ce-Type": "dev.cdevents.taskrun.finished.0.1.1",
 			},
 			payload: map[string]interface{}{
 				"context": map[string]string{
@@ -145,10 +145,10 @@ func Test_handlePayload(t *testing.T) {
 					"id":            "5555",
 					"source":        "github",
 					"timestamp":     "2023-12-07T14:51:29.908479495Z",
-					"type":          "dev.cdevents.change.merged.0.1.2",
+					"type":          "dev.cdevents.taskrun.finished.0.1.1",
 				},
 				"subject": map[string]string{
-					"type": "change",
+					"type": "TASKRUN",
 					"id":   "5555",
 				},
 			},

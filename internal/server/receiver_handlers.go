@@ -181,7 +181,6 @@ func (s *ReceiverServer) validate(ctx context.Context, receiver apiv1.Receiver, 
 		if r.Header.Get("X-Gitlab-Token") != token {
 			return fmt.Errorf("the X-Gitlab-Token header value does not match the receiver token")
 		}
-
 		event := r.Header.Get("X-Gitlab-Event")
 		if len(receiver.Spec.Events) > 0 {
 			allowed := false
@@ -204,7 +203,6 @@ func (s *ReceiverServer) validate(ctx context.Context, receiver apiv1.Receiver, 
 		if err != nil {
 			return fmt.Errorf("unable to read CDEvent request body: %s", err)
 		}
-
 		cdevent, err := cdevents.NewFromJsonBytes(b)
 		if err != nil {
 			return fmt.Errorf("unable to validate CDEvent event: %s", err)

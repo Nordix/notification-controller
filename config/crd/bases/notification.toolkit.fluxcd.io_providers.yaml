@@ -117,6 +117,7 @@ spec:
                 - alertmanager
                 - grafana
                 - githubdispatch
+                - cdevents
                 type: string
               username:
                 description: Bot username for this provider
@@ -332,6 +333,7 @@ spec:
                 - githubdispatch
                 - pagerduty
                 - datadog
+                - cdevents
                 type: string
               username:
                 description: Username specifies the name under which events are posted.
@@ -549,6 +551,7 @@ spec:
                 - pagerduty
                 - datadog
                 - nats
+                - cdevents
                 type: string
               username:
                 description: Username specifies the name under which events are posted.

@@ -52,6 +52,7 @@ const (
 	PagerDutyProvider       string = "pagerduty"
 	DataDogProvider         string = "datadog"
 	NATSProvider            string = "nats"
+	CDEventsProvider        string = "cdevents"
 )
 
 // ProviderSpec defines the desired state of the Provider.
