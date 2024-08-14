@@ -44,7 +44,7 @@ func TestCDEvents_Post(t *testing.T) {
 		Severity:  "info",
 		Timestamp: metav1.Now(),
 		Message:   "Helm install succeeded for release ns1/podinfo.v1 with chart podinfo@6.5.1",
-		Reason:    "UpgradeSucceeded",
+		Reason:    "ReconciliationSucceeded",
 		Metadata: map[string]string{
 			"clustername": "cluster1",
 			"namespace":   "ns1",
@@ -85,7 +85,7 @@ func TestCDEvents_Post(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	testURL := "http://localhost:9393"
+	testURL := "http://localhost:55555/clp29fc"
 
 	cdevent, err := NewCDEvents(testURL, "", nil)
 	require.NoError(t, err)

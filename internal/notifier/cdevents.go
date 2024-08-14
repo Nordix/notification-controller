@@ -22,6 +22,9 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"time"
+
+	"github.com/hashicorp/go-retryablehttp"
 
 	cdevents "github.com/cdevents/sdk-go/pkg/api"
 	eventv1 "github.com/fluxcd/pkg/apis/event/v1beta1"
@@ -105,8 +108,12 @@ func (s *CDEvents) Post(ctx context.Context, event eventv1.Event) error {
 		mapEvent.SetSubjectOutcome("Failure")
 		payload = mapEvent
 	case "reconciliationsucceeded":
-		mapEvent, _ := cdevents.NewPipelineRunFinishedEvent()
-		mapEvent.SetSubjectOutcome("Success")
+		mapEvent, _ := cdevents.NewServiceDeployedEvent()
+		mapEvent.SetSubjectArtifactId(string(event.InvolvedObject.UID))
+		var reference cdevents.Reference
+		reference.Id = string(event.InvolvedObject.UID)
+		reference.Source = event.InvolvedObject.Name
+		mapEvent.SetSubjectEnvironment(&reference)
 		payload = mapEvent
 	default:
 		mapEvent, _ := cdevents.NewIncidentDetectedEvent()
@@ -119,7 +126,20 @@ func (s *CDEvents) Post(ctx context.Context, event eventv1.Event) error {
 	payload.SetCustomData("application/json", event)
 	payload.SetSubjectId(string(event.InvolvedObject.UID))
 
-	err := postMessage(ctx, s.URL, s.ProxyURL, s.CertPool, payload)
+	fmt.Println("Setting CDEvent Headers")
+
+	// err := postMessage(ctx, s.URL, s.ProxyURL, s.CertPool, payload)
+	err := postMessage(ctx, s.URL, s.ProxyURL, s.CertPool, payload, func(request *retryablehttp.Request) {
+		request.Header.Add("ce-type", payload.GetType().String())
+		request.Header.Add("ce-specversion", "0.3")
+		request.Header.Add("ce-source", payload.GetSource())
+		request.Header.Add("ce-id", payload.GetId())
+		request.Header.Add("ce-time", payload.GetTimestamp().Format(time.RFC3339Nano))
+		request.Header.Add("prefer", "reply")
+
+		request.Header.Add("Accept", "application/json")
+		request.Header.Add("Content-Type", "application/json; charset=UTF-8")
+	})
 
 	if err != nil && err1 != nil {
 		return fmt.Errorf("postMessage failed: %w", err)

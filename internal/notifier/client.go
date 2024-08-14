@@ -91,7 +91,7 @@ func postMessage(ctx context.Context, address, proxy string, certPool *x509.Cert
 	if ctx != nil {
 		req = req.WithContext(ctx)
 	}
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	for _, o := range reqOpts {
 		o(req)
 	}
