@@ -1,6 +1,6 @@
 module github.com/fluxcd/notification-controller
 
-go 1.25.0
+go 1.26.0
 
 replace github.com/fluxcd/notification-controller/api => ./api
 
