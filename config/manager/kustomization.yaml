@@ -5,5 +5,5 @@ resources:
   - service.yaml
 images:
   - name: fluxcd/notification-controller
-    newName: fluxcd/notification-controller
-    newTag: v1.7.5
+    newName: registry.nordix.org/allies/notification-controller
+    newTag: v1.7.5-est-1
