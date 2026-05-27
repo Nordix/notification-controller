@@ -1,6 +1,6 @@
 module github.com/fluxcd/notification-controller/api
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/fluxcd/pkg/apis/meta v1.23.0
